@@ -10,10 +10,8 @@ class HangmanModel
     @word = word
     @used_letters = []
     @correct_letters = []  # store in lower case
-    @remaining_lives = 5
+    @remaining_lives = remaining_lives
     @game_over = false
-    @guess_input_rules = []
-
   end
 
   attr_reader :word

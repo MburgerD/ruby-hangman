@@ -2,14 +2,6 @@ require_relative 'model'
 require_relative 'view'
 
 
-# TASKS
-# get input in the view
-# in the controller - view.get_input
-# input validation in the game
-# make the controller non-specific to hangman - call it GameController
-# rspec
-
-
 class GameController
   def initialize(game_model, game_view)
     @game_model = game_model.new

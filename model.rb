@@ -26,8 +26,7 @@ class HangmanModel
   end
 
   def letter_used(char)
-    char = char.downcase
-    return @used_letters.include? char
+    return @used_letters.include? char.downcase
   end
 
   def letter_in_word(char)

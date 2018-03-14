@@ -2,6 +2,7 @@ require_relative 'model'
 require_relative 'view'
 
 
+# TASKS
 # get input in the view
 # in the controller - view.get_input
 # input validation in the game
@@ -26,6 +27,16 @@ class GameController
     end
   end
 
+  def take_turn
+    @game_view.print_status
+    validated_input = get_valid_input
+    result_codes = get_game_result(validated_input)
+    display_results(result_codes)
+
+    game_status = update_game(result_codes, validated_input)
+    display_status(game_status)
+  end
+
   def get_input_errors(input)
     return @game_model.get_turn_input_error_codes(input)
   end
@@ -38,58 +49,29 @@ class GameController
     result_codes.each {|code| @game_view.display_result(code)}
   end
 
-  def check_result(input)
+  def display_status(status_code)
+    @game_view.display_status(status_code)
+  end
+
+  def get_game_result(input)
     return @game_model.get_result_codes(input)
   end
 
-  def update_game(result_codes)
-    result_codes.each {|code| @game_model.result_action(code)}
+  def update_game(result_codes, input)
+    result_codes.each {|code| @game_model.result_action(code, input)}
+    return @game_model.status
   end
 
   def get_valid_input
     input_ok = false
     until input_ok
       input = @game_view.get_input
-      input_error_codes = check_input_errors(input)
+      input_error_codes = get_input_errors(input)
       input_ok = input_error_codes.empty?
       display_errors(input_error_codes)
     end
     return input
   end
-
-  def take_turn
-    @game_view.print_status
-    validated_input = get_valid_input
-    result_codes = check_result(validated_input)
-    display_results(result_codes)
-
-    # status_changes = update_game(result_codes)
-
-    @used_letters.push(validated_input)
-
-    if guess_is_correct(validated_input)
-      puts "Correct!"
-      @correct_letters.push(validated_input)
-      print_word_progress
-    else
-      puts "Damn, the word does not contain #{validated_input}!"
-      deduct_life
-    end
-
-    if no_lives_remaining
-      puts "\n\nGame over, you've run out of lives!"
-      puts "The word was #{@word}"
-      @game_model.game_over = true
-    elsif all_letters_guessed
-      puts "\n\nWell done, you got it!"
-      @game_model.game_over = true
-    end
-
-    print "\n"
-  end
-
- 
-  
 
 end
 

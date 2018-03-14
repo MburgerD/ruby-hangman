@@ -1,73 +1,4 @@
-class HangmanInputErrors
-  @MULTIPLE_CHARACTERS = 1
-  @NOT_ALPHA = 2
-  @USED_LETTER = 3
-
-  @input_error_messages = {@MULTIPLE_CHARACTERS => "You must only enter one character",
-               @NOT_ALPHA => "You must enter a letter",
-                 @USED_LETTER => "You've already guessed that letter"}
-  class << self
-    attr_reader :MULTIPLE_CHARACTERS
-    attr_reader :NOT_ALPHA
-    attr_reader :USED_LETTER
-    attr_reader :input_error_messages
-  end
-end
-
-
-class HangmanSetupInputRules
-
-end
-
-
-
-    error_codes = []
-
-    if not one_character_entered(input)
-      error_codes << InputErrors.MULTIPLE_CHARACTERS
-    end
-
-    if not character_is_alpha(input)
-      error_codes << InputErrors.NOT_ALPHA
-    end
-
-    if error_codes.empty?
-      if @game_model.letter_used(input)
-        error_codes << InputErrors.USED_LETTER
-      end
-    end
-
-class InputRule
-  @error_message = ''
-
-  def check
-
-
-class HangmanGuessInputRules
-  @RULES = 
-
-   def one_character_entered(input)
-    return input.length == 1
-  end
-
-  def character_is_alpha(char)
-    return /^[[:alpha:]]$/ === char
-  end
-  # @MULTIPLE_CHARACTERS = 1
-  # @NOT_ALPHA = 2
-  # @USED_LETTER = 3
-
-  # @input_error_messages = {@MULTIPLE_CHARACTERS => "You must only enter one character",
-  #              @NOT_ALPHA => "You must enter a letter",
-  #                @USED_LETTER => "You've already guessed that letter"}
-  # class << self
-  #   attr_reader :MULTIPLE_CHARACTERS
-  #   attr_reader :NOT_ALPHA
-  #   attr_reader :USED_LETTER
-  #   attr_reader :input_error_messages
-  # end
-
-end
+require_relative 'view'
 
 
 class HangmanModel
@@ -81,6 +12,7 @@ class HangmanModel
     @correct_letters = []  # store in lower case
     @remaining_lives = 5
     @game_over = false
+    @guess_input_rules = []
 
   end
 
@@ -89,7 +21,6 @@ class HangmanModel
   attr_reader :correct_letters
   attr_reader :remaining_lives
   attr_reader :game_over
-
 
 
   def deduct_life
@@ -108,11 +39,67 @@ class HangmanModel
   def setup
   end
 
-  
+  def get_result_codes(char)
+    result_codes = []
+    if letter_in_word(char)
+      result_codes << HangmanResults.CORRECT_GUESS
+    else
+      result_codes << HangmanResults.INCORRECT_GUESS
+    end
+    return result_codes
+  end
 
+  def one_character_entered(input)
+    return input.length == 1
+  end
 
+  def character_is_alpha(char)
+    return /^[[:alpha:]]$/ === char
+  end
 
-    
+  def get_turn_input_error_codes(input)
+    error_codes = []
+
+    if not one_character_entered(input)
+      error_codes << HangmanInputErrors.MULTIPLE_CHARACTERS
+    end
+
+    if not character_is_alpha(input)
+      error_codes << HangmanInputErrors.NOT_ALPHA
+    end
+
+    if error_codes.empty?
+      if letter_used(input)
+        error_codes << HangmanInputErrors.USED_LETTER
+      end
+    end
+    return error_codes
+  end
+
+  def result_action(result_code, char)
+    @used_letters.push(char)
+
+    if result_code == HangmanResults.CORRECT_GUESS
+      @correct_letters.push(char)
+    elsif result_code == HangmanResults.INCORRECT_GUESS
+      deduct_life
+    end
+
+    return status
+  end
+
+  def status
+    if no_lives_remaining      
+      @game_over = true
+      return HangmanStatuses.GAME_LOST
+    elsif all_letters_guessed
+      @game_over = true
+      return HangmanStatuses.GAME_WON
+    else
+      return HangmanStatuses.GAME_CONTINUES
+    end
+  end
+
   def no_lives_remaining
     return @remaining_lives == 0
   end
@@ -120,8 +107,7 @@ class HangmanModel
   def all_letters_guessed
     return @word.downcase.split('').uniq.length == @correct_letters.uniq.length
   end
-    
-
+  
 end
 
 

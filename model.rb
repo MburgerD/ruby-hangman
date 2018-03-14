@@ -109,18 +109,3 @@ class HangmanModel
   end
   
 end
-
-
-# results = Results.new
-# puts results.CORRECT_GUESS
-# puts results.result_messages[1]
-
-
-
-
-
-
-
-
-
-

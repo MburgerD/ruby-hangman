@@ -123,12 +123,3 @@ class HangmanView
   end
 
 end
-
-
-
-
-
-
-
-
-

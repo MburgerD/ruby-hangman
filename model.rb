@@ -8,13 +8,9 @@ class HangmanModel
     @used_letters = []
     @correct_letters = []  # store in lower case
     @remaining_lives = remaining_lives
-    @game_won = false
-    @game_lost = false
-    @game_over = false
   end
 
-  attr_reader :word, :used_letters, :correct_letters, :remaining_lives, 
-              :game_over, :game_won, :game_lost
+  attr_reader :word, :used_letters, :correct_letters, :remaining_lives
 
   def deduct_life
     @remaining_lives -= 1
@@ -41,7 +37,6 @@ class HangmanModel
       result_codes << HangmanResults.INCORRECT_GUESS
     end
 
-    update_status
     return result_codes
   end
 
@@ -72,14 +67,16 @@ class HangmanModel
     return error_codes
   end
 
-  def update_status
-    if no_lives_remaining
-      @game_lost = true
-      @game_over = true
-    elsif all_letters_guessed
-      @game_won = true
-      @game_over = true
-    end
+  def game_over?
+    game_won? or game_lost?
+  end
+
+  def game_won?
+    all_letters_guessed
+  end
+
+  def game_lost?
+    no_lives_remaining
   end
 
   def no_lives_remaining

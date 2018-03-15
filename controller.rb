@@ -7,7 +7,7 @@ class GameController
 
   def play
     @game_view.print_start_game
-    until @game_model.game_over
+    until @game_model.game_over?
       @game_view.print_status
       validated_input = get_valid_input
       result_codes = @game_model.take_turn(validated_input)
@@ -17,12 +17,12 @@ class GameController
   end
 
   def game_over
-    if @game_model.game_won
+    if @game_model.game_won?
       @game_view.game_won
     else
       @game_view.game_lost
     end
-  end
+  end 
 
   def send_errors_to_view(error_codes)
     error_codes.each {|code| @game_view.display_error(code)}

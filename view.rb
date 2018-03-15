@@ -1,52 +1,14 @@
 
-# class Results
-#   def initialize
-#     @CORRECT_GUESS = 1
-#     @INCORRECT_GUESS = 2
-#     @GAME_WON = 3
-#     @GAME_LOST = 4
-
-#     @result_messages = {@CORRECT_GUESS => "Correct!",
-#                          @INCORRECT_GUESS => "Nope!",
-#                          @GAME_WON => "Well done, you won!",
-#                          @GAME_LOST => "Oh no, you've lost!"}
-#   end
-
-#   attr_reader :CORRECT_GUESS
-#   attr_reader :INCORRECT_GUESS
-#   attr_reader :GAME_WON
-#   attr_reader :GAME_LOST
-#   attr_reader :result_messages
-# end
-
-
 class HangmanResults
   @CORRECT_GUESS = 1
   @INCORRECT_GUESS = 2
 
   @result_messages = {@CORRECT_GUESS => "Correct!",
-                      @INCORRECT_GUESS => "Nope!"}
+                      @INCORRECT_GUESS => "Nope! You lose a life!"}
   class << self
     attr_reader :CORRECT_GUESS
     attr_reader :INCORRECT_GUESS
     attr_reader :result_messages
-  end
-end
-
-
-class HangmanStatuses
-  @GAME_WON = 1
-  @GAME_LOST = 2
-  @GAME_CONTINUES = 3
-
-  @status_messages = {@GAME_WON => "Well done, you won!",
-                      @GAME_LOST => "Oh no, you've lost!",
-                      @GAME_CONTINUES => ""}
-  class << self
-    attr_reader :GAME_WON
-    attr_reader :GAME_LOST
-    attr_reader :GAME_CONTINUES
-    attr_reader :status_messages
   end
 end
 
@@ -82,7 +44,7 @@ class HangmanView
   end
 
   def print_status
-    print "here's the word so far: "
+    print "\nhere's the word so far: "
     print_word_progress
     puts "you have #{@hangman.remaining_lives} lives remaining"
     print_used_letters
@@ -106,6 +68,15 @@ class HangmanView
     end
   end
 
+  def game_won
+    puts "Well done, you won!"
+  end
+
+  def game_lost
+    puts "Oh no, you've lost!"
+    reveal_word
+  end
+
   def reveal_word
     puts "The word was #{@hangman.word}"
   end
@@ -116,10 +87,6 @@ class HangmanView
 
   def display_result(result_code)
     puts HangmanResults.result_messages[result_code]
-  end
-
-  def display_status(status_code)
-    puts HangmanStatuses.status_messages[status_code]
   end
 
 end

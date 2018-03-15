@@ -5,12 +5,7 @@ class GameController
     @game_view = game_view
   end
 
-  def setup
-    @game_model.setup
-  end
-
   def play
-    setup
     until @game_model.game_over
       @game_view.print_status
       validated_input = get_valid_input

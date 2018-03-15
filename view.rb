@@ -6,9 +6,7 @@ class HangmanResults
   @result_messages = {@CORRECT_GUESS => "Correct!",
                       @INCORRECT_GUESS => "Nope! You lose a life!"}
   class << self
-    attr_reader :CORRECT_GUESS
-    attr_reader :INCORRECT_GUESS
-    attr_reader :result_messages
+    attr_reader :CORRECT_GUESS, :INCORRECT_GUESS, :result_messages
   end
 end
 
@@ -22,10 +20,7 @@ class HangmanInputErrors
                      @NOT_ALPHA => "You must enter a letter",
                      @USED_LETTER => "You've already guessed that letter"}
   class << self
-    attr_reader :MULTIPLE_CHARACTERS
-    attr_reader :NOT_ALPHA
-    attr_reader :USED_LETTER
-    attr_reader :error_messages
+    attr_reader :MULTIPLE_CHARACTERS, :NOT_ALPHA, :USED_LETTER, :error_messages
   end
 end
 

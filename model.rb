@@ -13,13 +13,8 @@ class HangmanModel
     @game_over = false
   end
 
-  attr_reader :word
-  attr_reader :used_letters
-  attr_reader :correct_letters
-  attr_reader :remaining_lives
-  attr_reader :game_over
-  attr_reader :game_won
-  attr_reader :game_lost
+  attr_reader :word, :used_letters, :correct_letters, :remaining_lives, 
+              :game_over, :game_won, :game_lost
 
   def deduct_life
     @remaining_lives -= 1

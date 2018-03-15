@@ -11,7 +11,6 @@ class GameController
 
   def play
     setup
-    puts @gan
     until @game_model.game_over
       @game_view.print_status
       validated_input = get_valid_input

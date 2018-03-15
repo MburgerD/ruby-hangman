@@ -6,6 +6,7 @@ class GameController
   end
 
   def play
+    @game_view.print_start_game
     until @game_model.game_over
       @game_view.print_status
       validated_input = get_valid_input

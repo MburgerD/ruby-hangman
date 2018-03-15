@@ -29,6 +29,9 @@ class HangmanView
 
   def initialize(hangman_game)
     @hangman = hangman_game
+  end
+
+  def print_start_game
     print `clear`
     puts "------------------hangman------------------"
   end

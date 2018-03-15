@@ -32,9 +32,6 @@ class HangmanModel
   def letter_in_word(char)
     return @word.downcase.include? char.downcase
   end
-  
-  def setup
-  end
 
   def take_turn(char)
     char = char.downcase

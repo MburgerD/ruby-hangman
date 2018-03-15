@@ -39,7 +39,7 @@ class GameController
       input_ok = input_error_codes.empty?
       send_errors_to_view(input_error_codes)
     end
-    return input
+    input
   end
 
 end

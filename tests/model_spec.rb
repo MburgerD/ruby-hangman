@@ -1,6 +1,7 @@
 require_relative '../model.rb'
 
 RSpec.describe HangmanModel do
+
   describe "#deduct_life" do
     it "subtracts 1 from @remaining_lives" do
       hangman = HangmanModel.new(word="foo", remaining_lives=10)
@@ -59,7 +60,7 @@ RSpec.describe HangmanModel do
       hangman = HangmanModel.new(word='foo')
       expect(hangman.all_letters_guessed).to be false
       hangman.correct_letters << 'f'
-      hangman.correct_letters << 'a'
+      hangman.correct_letters << 'o'
       expect(hangman.all_letters_guessed).to be true
     end
   end

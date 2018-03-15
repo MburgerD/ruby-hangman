@@ -37,6 +37,7 @@ class HangmanModel
   end
 
   def take_turn(char)
+    char = char.downcase
     result_codes = []
     @used_letters.push(char)
 

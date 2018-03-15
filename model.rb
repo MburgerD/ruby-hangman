@@ -2,15 +2,14 @@ require_relative 'view'
 
 
 class HangmanModel
-  """
-  Hold the game status
-  """
 
   def initialize(word='Timetable', remaining_lives=5)
     @word = word
     @used_letters = []
     @correct_letters = []  # store in lower case
     @remaining_lives = remaining_lives
+    @game_won = false
+    @game_lost = false
     @game_over = false
   end
 
@@ -19,7 +18,8 @@ class HangmanModel
   attr_reader :correct_letters
   attr_reader :remaining_lives
   attr_reader :game_over
-
+  attr_reader :game_won
+  attr_reader :game_lost
 
   def deduct_life
     @remaining_lives -= 1
@@ -36,13 +36,19 @@ class HangmanModel
   def setup
   end
 
-  def get_result_codes(char)
+  def take_turn(char)
     result_codes = []
+    @used_letters.push(char)
+
     if letter_in_word(char)
+      @correct_letters.push(char)
       result_codes << HangmanResults.CORRECT_GUESS
     else
+      deduct_life
       result_codes << HangmanResults.INCORRECT_GUESS
     end
+
+    update_status
     return result_codes
   end
 
@@ -73,27 +79,13 @@ class HangmanModel
     return error_codes
   end
 
-  def result_action(result_code, char)
-    @used_letters.push(char)
-
-    if result_code == HangmanResults.CORRECT_GUESS
-      @correct_letters.push(char)
-    elsif result_code == HangmanResults.INCORRECT_GUESS
-      deduct_life
-    end
-
-    return status
-  end
-
-  def status
-    if no_lives_remaining      
+  def update_status
+    if no_lives_remaining
+      @game_lost = true
       @game_over = true
-      return HangmanStatuses.GAME_LOST
     elsif all_letters_guessed
+      @game_won = true
       @game_over = true
-      return HangmanStatuses.GAME_WON
-    else
-      return HangmanStatuses.GAME_CONTINUES
     end
   end
 

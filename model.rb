@@ -6,11 +6,10 @@ class HangmanModel
   def initialize(word='Timetable', remaining_lives=5)
     @word = word
     @used_letters = []
-    @correct_letters = []  # store in lower case
     @remaining_lives = remaining_lives
   end
 
-  attr_reader :word, :used_letters, :correct_letters, :remaining_lives
+  attr_reader :word, :used_letters, :remaining_lives
 
   def take_turn(char)
     char = char.downcase
@@ -18,7 +17,6 @@ class HangmanModel
     used_letters.push(char)
 
     if letter_in_word(char)
-      correct_letters.push(char)
       result_codes << HangmanResults::CORRECT_GUESS
     else
       deduct_life
@@ -56,6 +54,10 @@ class HangmanModel
 
   def game_lost?
     no_lives_remaining?
+  end
+
+  def correct_letters
+    word.downcase.split('').uniq & used_letters
   end
 
   private

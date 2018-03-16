@@ -1,27 +1,25 @@
 
 class HangmanResults
-  @CORRECT_GUESS = 1
-  @INCORRECT_GUESS = 2
+  CORRECT_GUESS = 1
+  INCORRECT_GUESS = 2
 
-  @result_messages = {@CORRECT_GUESS => "Correct!",
-                      @INCORRECT_GUESS => "Nope! You lose a life!"}
-  class << self
-    attr_reader :CORRECT_GUESS, :INCORRECT_GUESS, :result_messages
-  end
+  RESULT_MESSAGES = {
+    CORRECT_GUESS => "Correct!",
+    INCORRECT_GUESS => "Nope! You lose a life!"
+  }
 end
 
 
 class HangmanInputErrors
-  @MULTIPLE_CHARACTERS = 1
-  @NOT_ALPHA = 2
-  @USED_LETTER = 3
+  MULTIPLE_CHARACTERS = 1
+  NOT_ALPHA = 2
+  USED_LETTER = 3
 
-  @error_messages = {@MULTIPLE_CHARACTERS => "You must only enter one character",
-                     @NOT_ALPHA => "You must enter a letter",
-                     @USED_LETTER => "You've already guessed that letter"}
-  class << self
-    attr_reader :MULTIPLE_CHARACTERS, :NOT_ALPHA, :USED_LETTER, :error_messages
-  end
+  ERROR_MESSAGES = {
+    MULTIPLE_CHARACTERS => "You must only enter one character",
+    NOT_ALPHA => "You must enter a letter",
+    USED_LETTER => "You've already guessed that letter"
+  }
 end
 
 
@@ -58,11 +56,11 @@ class HangmanView
   end
 
   def display_error(error_code)
-    puts HangmanInputErrors.error_messages[error_code]
+    puts HangmanInputErrors::ERROR_MESSAGES[error_code]
   end  
 
   def display_result(result_code)
-    puts HangmanResults.result_messages[result_code]
+    puts HangmanResults::RESULT_MESSAGES[result_code]
   end
 
   private

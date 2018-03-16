@@ -16,7 +16,7 @@ class HangmanModel
     result_codes = []
     used_letters.push(char)
 
-    if letter_in_word(char)
+    if letter_in_word?(char)
       result_codes << HangmanResults::CORRECT_GUESS
     else
       deduct_life
@@ -70,7 +70,7 @@ class HangmanModel
     used_letters.include? char.downcase
   end
 
-  def letter_in_word(char)
+  def letter_in_word?(char)
     word.downcase.include? char.downcase
   end
 

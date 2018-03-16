@@ -1,68 +1,76 @@
 require_relative '../model.rb'
+require_relative '../view.rb'
+
 
 RSpec.describe HangmanModel do
 
-  describe "#deduct_life" do
-    it "subtracts 1 from @remaining_lives" do
-      hangman = HangmanModel.new(word="foo", remaining_lives=10)
-      expect(hangman.remaining_lives).to eq(10)
-      hangman.deduct_life
-      expect(hangman.remaining_lives).to eq(9)
-    end
-  end  
+  describe "#take_turn" do
 
-  describe "#letter_used" do
-    it "returns true if letter in @used_letters, else false" do
-      hangman = HangmanModel.new
-      hangman.used_letters << 'a'
-      expect(hangman.letter_used('a')).to be true
-      expect(hangman.letter_used('b')).to be false
-    end
-  end  
+    context "with incorrect letter" do
+      it "returns correct error code, deducts life" do
+        hangman = HangmanModel.new(word="foo", remaining_lives=5)
 
-  describe "#letter_in_word" do
-    it "returns true if letter in @word, else false" do
-      hangman = HangmanModel.new(word="foo")
-      expect(hangman.letter_in_word('f')).to be true
-      expect(hangman.letter_in_word('a')).to be false
+        expect(hangman.take_turn('q')).to eq([HangmanResults.INCORRECT_GUESS])
+        expect(hangman.remaining_lives).to eq(4)
+      end
+    end    
+
+    context "with correct letter" do
+      it "returns correct error code, does not deduct life" do
+        hangman = HangmanModel.new(word="foo", remaining_lives=5)
+
+        expect(hangman.take_turn('o')).to eq([HangmanResults.CORRECT_GUESS])
+        expect(hangman.remaining_lives).to eq(5)
+      end
     end
+
+    context "with correct letter capitalised" do
+      it "returns correct error code, does not deduct life" do
+        hangman = HangmanModel.new(word="foo", remaining_lives=5)
+
+        expect(hangman.take_turn('F')).to eq([HangmanResults.CORRECT_GUESS])
+        expect(hangman.remaining_lives).to eq(5)
+      end
+    end
+
   end
 
-    describe "#one_character_entered" do
-    it "returns true if length of input is 1, else false" do
-      hangman = HangmanModel.new
-      expect(hangman.one_character_entered('f')).to be true
-      expect(hangman.one_character_entered('foo')).to be false
-    end
-  end
+  describe "#get_turn_input_error_codes" do
 
-    describe "#character_is_alpha" do
-    it "returns true if input is a letter, else false" do
-      hangman = HangmanModel.new
-      expect(hangman.character_is_alpha('a')).to be true
-      expect(hangman.character_is_alpha('A')).to be true
-      expect(hangman.character_is_alpha('1')).to be false
-      expect(hangman.character_is_alpha('@')).to be false
-    end
-  end
+    context "with single number" do
+      it "returns correct error code" do
+        hangman = HangmanModel.new
 
-    describe "#no_lives_remaining" do
-    it "returns true if @remaining_lives is 0, else false" do
-      hangman = HangmanModel.new
-      expect(hangman.no_lives_remaining).to be false
-      hangman = HangmanModel.new(word='foo', remaining_lives=0)
-      expect(hangman.no_lives_remaining).to be true
-    end
-  end    
+        expect(hangman.get_turn_input_error_codes('1')).to eq([HangmanInputErrors.NOT_ALPHA])
+      end
+    end    
 
-  describe "#all_letters_guessed" do
-    it "returns true if all letters in word are in @correct_letters" do
-      hangman = HangmanModel.new(word='foo')
-      expect(hangman.all_letters_guessed).to be false
-      hangman.correct_letters << 'f'
-      hangman.correct_letters << 'o'
-      expect(hangman.all_letters_guessed).to be true
-    end
+    context "with multiple non-alphas" do
+      it "returns correct error codes" do
+        hangman = HangmanModel.new
+
+        expected_error_codes = [HangmanInputErrors.MULTIPLE_CHARACTERS, HangmanInputErrors.NOT_ALPHA]
+        expect(hangman.get_turn_input_error_codes('1@q')).to eq(expected_error_codes)
+      end
+    end    
+
+    context "with a single, used letter" do
+      it "returns correct error code" do
+        hangman = HangmanModel.new
+        hangman.used_letters << 'a'
+
+        expect(hangman.get_turn_input_error_codes('a')).to eq([HangmanInputErrors.USED_LETTER])
+      end
+    end    
+
+    context "with a single, unused letter" do
+      it "returns empty array" do
+        hangman = HangmanModel.new
+
+        expect(hangman.get_turn_input_error_codes('a')).to eq([])
+      end
+    end  
+
   end
 
 end

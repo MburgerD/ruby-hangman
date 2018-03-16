@@ -48,24 +48,6 @@ class HangmanView
     print_used_letters
   end
 
-  def print_word_progress
-    @hangman.word.each_char do |i|
-      if @hangman.correct_letters.include? i.downcase
-        print i
-      else
-        print "*"
-      end
-    end
-    print "\n"
-  end
-
-  def print_used_letters
-    if not @hangman.used_letters.empty?
-      print "Letters you've guessed: "
-      puts @hangman.used_letters.join(" ")
-    end
-  end
-
   def game_won
     puts "Well done, you won!"
   end
@@ -75,16 +57,36 @@ class HangmanView
     reveal_word
   end
 
-  def reveal_word
-    puts "The word was #{@hangman.word}"
-  end
-
   def display_error(error_code)
     puts HangmanInputErrors.error_messages[error_code]
   end  
 
   def display_result(result_code)
     puts HangmanResults.result_messages[result_code]
+  end
+
+  private
+
+  def reveal_word
+    puts "The word was #{@hangman.word}"
+  end
+
+  def print_used_letters
+    if not @hangman.used_letters.empty?
+      print "Letters you've guessed: "
+      puts @hangman.used_letters.join(" ")
+    end
+  end
+
+  def print_word_progress
+    @hangman.word.each_char do |i|
+      if @hangman.correct_letters.include? i.downcase
+        print i
+      else
+        print "*"
+      end
+    end
+    print "\n"
   end
 
 end

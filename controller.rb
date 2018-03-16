@@ -16,6 +16,8 @@ class GameController
     game_over
   end
 
+  private
+
   def game_over
     if @game_model.game_won?
       @game_view.game_won

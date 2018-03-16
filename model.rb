@@ -12,18 +12,6 @@ class HangmanModel
 
   attr_reader :word, :used_letters, :correct_letters, :remaining_lives
 
-  def deduct_life
-    @remaining_lives -= 1
-  end
-
-  def letter_used(char)
-    return @used_letters.include? char.downcase
-  end
-
-  def letter_in_word(char)
-    return @word.downcase.include? char.downcase
-  end
-
   def take_turn(char)
     char = char.downcase
     result_codes = []
@@ -36,16 +24,7 @@ class HangmanModel
       deduct_life
       result_codes << HangmanResults.INCORRECT_GUESS
     end
-
     return result_codes
-  end
-
-  def one_character_entered(input)
-    return input.length == 1
-  end
-
-  def character_is_alpha(char)
-    return /^[[:alpha:]]$/ === char
   end
 
   def get_turn_input_error_codes(input)
@@ -77,6 +56,28 @@ class HangmanModel
 
   def game_lost?
     no_lives_remaining
+  end
+
+  private
+
+  def deduct_life
+    @remaining_lives -= 1
+  end
+
+  def letter_used(char)
+    return @used_letters.include? char.downcase
+  end
+
+  def letter_in_word(char)
+    return @word.downcase.include? char.downcase
+  end
+
+  def one_character_entered(input)
+    return input.length == 1
+  end
+
+  def character_is_alpha(char)
+    return /^[[:alpha:]]$/ === char
   end
 
   def no_lives_remaining

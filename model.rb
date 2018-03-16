@@ -15,10 +15,10 @@ class HangmanModel
   def take_turn(char)
     char = char.downcase
     result_codes = []
-    @used_letters.push(char)
+    used_letters.push(char)
 
     if letter_in_word(char)
-      @correct_letters.push(char)
+      correct_letters.push(char)
       result_codes << HangmanResults::CORRECT_GUESS
     else
       deduct_life
@@ -65,11 +65,11 @@ class HangmanModel
   end
 
   def letter_used(char)
-    @used_letters.include? char.downcase
+    used_letters.include? char.downcase
   end
 
   def letter_in_word(char)
-    @word.downcase.include? char.downcase
+    word.downcase.include? char.downcase
   end
 
   def one_character_entered(input)
@@ -85,7 +85,7 @@ class HangmanModel
   end
 
   def all_letters_guessed
-    @word.downcase.split('').uniq.length == @correct_letters.uniq.length
+    word.downcase.split('').uniq.length == correct_letters.uniq.length
   end
   
 end

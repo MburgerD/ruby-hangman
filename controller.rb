@@ -18,8 +18,7 @@ class GameController
 
   private
 
-  attr_reader :model
-  attr_reader :view
+  attr_reader :model, :view
 
   def game_over
     if model.game_won?

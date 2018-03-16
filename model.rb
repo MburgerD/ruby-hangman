@@ -30,16 +30,16 @@ class HangmanModel
   def get_turn_input_error_codes(input)
     error_codes = []
 
-    if not one_character_entered(input)
+    if not one_character_entered?(input)
       error_codes << HangmanInputErrors::MULTIPLE_CHARACTERS
     end
 
-    if not character_is_alpha(input)
+    if not character_is_alpha?(input)
       error_codes << HangmanInputErrors::NOT_ALPHA
     end
 
     if error_codes.empty?
-      if letter_used(input)
+      if letter_used?(input)
         error_codes << HangmanInputErrors::USED_LETTER
       end
     end
@@ -51,11 +51,11 @@ class HangmanModel
   end
 
   def game_won?
-    all_letters_guessed
+    all_letters_guessed?
   end
 
   def game_lost?
-    no_lives_remaining
+    no_lives_remaining?
   end
 
   private
@@ -64,7 +64,7 @@ class HangmanModel
     @remaining_lives -= 1
   end
 
-  def letter_used(char)
+  def letter_used?(char)
     used_letters.include? char.downcase
   end
 
@@ -72,19 +72,19 @@ class HangmanModel
     word.downcase.include? char.downcase
   end
 
-  def one_character_entered(input)
+  def one_character_entered?(input)
     input.length == 1
   end
 
-  def character_is_alpha(char)
+  def character_is_alpha?(char)
     /^[[:alpha:]]$/ === char
   end
 
-  def no_lives_remaining
+  def no_lives_remaining?
     @remaining_lives == 0
   end
 
-  def all_letters_guessed
+  def all_letters_guessed?
     word.downcase.split('').uniq.length == correct_letters.uniq.length
   end
   

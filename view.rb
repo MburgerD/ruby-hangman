@@ -38,7 +38,7 @@ class HangmanView
 
   def get_input
     print "Enter your guess >> "
-    return gets.chomp
+    gets.chomp
   end
 
   def print_status

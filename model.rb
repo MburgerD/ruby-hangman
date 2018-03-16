@@ -24,7 +24,7 @@ class HangmanModel
       deduct_life
       result_codes << HangmanResults.INCORRECT_GUESS
     end
-    return result_codes
+    result_codes
   end
 
   def get_turn_input_error_codes(input)
@@ -43,7 +43,7 @@ class HangmanModel
         error_codes << HangmanInputErrors.USED_LETTER
       end
     end
-    return error_codes
+    error_codes
   end
 
   def game_over?
@@ -65,27 +65,27 @@ class HangmanModel
   end
 
   def letter_used(char)
-    return @used_letters.include? char.downcase
+    @used_letters.include? char.downcase
   end
 
   def letter_in_word(char)
-    return @word.downcase.include? char.downcase
+    @word.downcase.include? char.downcase
   end
 
   def one_character_entered(input)
-    return input.length == 1
+    input.length == 1
   end
 
   def character_is_alpha(char)
-    return /^[[:alpha:]]$/ === char
+    /^[[:alpha:]]$/ === char
   end
 
   def no_lives_remaining
-    return @remaining_lives == 0
+    @remaining_lives == 0
   end
 
   def all_letters_guessed
-    return @word.downcase.split('').uniq.length == @correct_letters.uniq.length
+    @word.downcase.split('').uniq.length == @correct_letters.uniq.length
   end
   
 end

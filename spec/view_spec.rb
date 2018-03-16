@@ -6,10 +6,11 @@ RSpec.describe HangmanView do
 
   describe "#print_status" do
 
+    let(:hangman) { HangmanModel.new(word="foo") }
+    let(:view) { HangmanView.new(hangman) }
+
     context "with no letters guessed" do
       it "reveals no letters in the word" do
-        hangman = HangmanModel.new(word="foo")
-        view = HangmanView.new(hangman)
         expected_output = "\nhere's the word so far: "\
                           "***\n"\
                           "you have #{hangman.remaining_lives} lives remaining\n"
@@ -19,9 +20,6 @@ RSpec.describe HangmanView do
 
     context "with correct letters guessed" do
       it "reveals correct letters in the word and used letters" do
-        hangman = HangmanModel.new(word="foo")
-        view = HangmanView.new(hangman)
-
         hangman.used_letters.push("o", "b")
 
         expected_output = "\nhere's the word so far: "\

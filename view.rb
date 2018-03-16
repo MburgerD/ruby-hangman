@@ -29,6 +29,8 @@ class HangmanView
     @hangman = hangman_game
   end
 
+  attr_reader :hangman
+
   def print_start_game
     print `clear`
     puts "------------------hangman------------------"
@@ -42,7 +44,7 @@ class HangmanView
   def print_status
     print "\nhere's the word so far: "
     print_word_progress
-    puts "you have #{@hangman.remaining_lives} lives remaining"
+    puts "you have #{hangman.remaining_lives} lives remaining"
     print_used_letters
   end
 
@@ -66,19 +68,19 @@ class HangmanView
   private
 
   def reveal_word
-    puts "The word was #{@hangman.word}"
+    puts "The word was #{hangman.word}"
   end
 
   def print_used_letters
-    if not @hangman.used_letters.empty?
+    if not hangman.used_letters.empty?
       print "Letters you've guessed: "
-      puts @hangman.used_letters.join(" ")
+      puts hangman.used_letters.join(" ")
     end
   end
 
   def print_word_progress
-    @hangman.word.each_char do |i|
-      if @hangman.correct_letters.include? i.downcase
+    hangman.word.each_char do |i|
+      if hangman.correct_letters.include? i.downcase
         print i
       else
         print "*"

@@ -1,16 +1,16 @@
 
 class GameController
-  def initialize(game_model, game_view)
-    @game_model = game_model
-    @game_view = game_view
+  def initialize(model, view)
+    @model = model
+    @view = view
   end
 
   def play
-    @game_view.print_start_game
-    until @game_model.game_over?
-      @game_view.print_status
+    view.print_start_game
+    until model.game_over?
+      view.print_status
       validated_input = get_valid_input
-      result_codes = @game_model.take_turn(validated_input)
+      result_codes = model.take_turn(validated_input)
       send_results_to_view(result_codes)
     end
     game_over
@@ -18,27 +18,30 @@ class GameController
 
   private
 
+  attr_reader :model
+  attr_reader :view
+
   def game_over
-    if @game_model.game_won?
-      @game_view.game_won
+    if model.game_won?
+      view.game_won
     else
-      @game_view.game_lost
+      view.game_lost
     end
-  end 
+  end
 
   def send_errors_to_view(error_codes)
-    error_codes.each {|code| @game_view.display_error(code)}
+    error_codes.each {|code| view.display_error(code)}
   end
 
   def send_results_to_view(result_codes)
-    result_codes.each {|code| @game_view.display_result(code)}
+    result_codes.each {|code| view.display_result(code)}
   end
 
   def get_valid_input
     input_ok = false
     until input_ok
-      input = @game_view.get_input
-      input_error_codes = @game_model.get_turn_input_error_codes(input)
+      input = view.get_input
+      input_error_codes = model.get_turn_input_error_codes(input)
       input_ok = input_error_codes.empty?
       send_errors_to_view(input_error_codes)
     end

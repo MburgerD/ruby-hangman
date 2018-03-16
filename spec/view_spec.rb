@@ -22,17 +22,16 @@ RSpec.describe HangmanView do
         hangman = HangmanModel.new(word="foo")
         view = HangmanView.new(hangman)
 
-        hangman.correct_letters.push("o")
-        hangman.used_letters.push("a", "b")
+        hangman.used_letters.push("o", "b")
 
         expected_output = "\nhere's the word so far: "\
                           "*oo\n"\
                           "you have #{hangman.remaining_lives} lives remaining\n"\
-                          "Letters you've guessed: a b\n"
+                          "Letters you've guessed: o b\n"
         expect{view.print_status}.to output(expected_output).to_stdout
       end
     end
-    
+
   end
 
 end 

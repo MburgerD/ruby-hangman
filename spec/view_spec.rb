@@ -5,7 +5,6 @@ require_relative '../model.rb'
 RSpec.describe HangmanView do 
 
   describe "#print_status" do
-
     let(:hangman) { HangmanModel.new(word="foo") }
     let(:view) { HangmanView.new(hangman) }
 
@@ -29,7 +28,6 @@ RSpec.describe HangmanView do
         expect{view.print_status}.to output(expected_output).to_stdout
       end
     end
-
   end
 
 end 

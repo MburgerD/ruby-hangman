@@ -5,7 +5,6 @@ require_relative '../view.rb'
 RSpec.describe HangmanModel do
 
   describe "#take_turn" do
-
     let(:hangman) { HangmanModel.new(word="foo", remaining_lives=5) }
 
     context "with incorrect letter" do
@@ -28,11 +27,9 @@ RSpec.describe HangmanModel do
         expect(hangman.remaining_lives).to eq(5)
       end
     end
-
   end
 
   describe "#get_turn_input_error_codes" do
-
     let(:hangman) { HangmanModel.new }
 
     context "with single number" do
@@ -61,7 +58,6 @@ RSpec.describe HangmanModel do
         expect(hangman.get_turn_input_error_codes('a')).to eq([])
       end
     end  
-
   end
 
 end

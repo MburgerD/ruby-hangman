@@ -13,35 +13,34 @@ class HangmanModel
 
   def take_turn(char)
     char = char.downcase
-    result_codes = []
     used_letters.push(char)
 
-    if letter_in_word?(char)
-      result_codes << HangmanResults::CORRECT_GUESS
-    else
-      deduct_life
-      result_codes << HangmanResults::INCORRECT_GUESS
+    [].tap do |result_codes|
+      if letter_in_word?(char)
+        result_codes << HangmanResults::CORRECT_GUESS
+      else
+        deduct_life
+        result_codes << HangmanResults::INCORRECT_GUESS
+      end
     end
-    result_codes
   end
 
   def get_turn_input_error_codes(input)
-    error_codes = []
+    [].tap do |error_codes|
+      if not one_character_entered?(input)
+        error_codes << HangmanInputErrors::MULTIPLE_CHARACTERS
+      end
 
-    if not one_character_entered?(input)
-      error_codes << HangmanInputErrors::MULTIPLE_CHARACTERS
-    end
+      if not character_is_alpha?(input)
+        error_codes << HangmanInputErrors::NOT_ALPHA
+      end
 
-    if not character_is_alpha?(input)
-      error_codes << HangmanInputErrors::NOT_ALPHA
-    end
-
-    if error_codes.empty?
-      if letter_used?(input)
-        error_codes << HangmanInputErrors::USED_LETTER
+      if error_codes.empty?
+        if letter_used?(input)
+          error_codes << HangmanInputErrors::USED_LETTER
+        end
       end
     end
-    error_codes
   end
 
   def game_over?

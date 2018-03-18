@@ -72,7 +72,7 @@ class HangmanView
   end
 
   def print_used_letters
-    if not hangman.used_letters.empty?
+    unless hangman.used_letters.empty?
       print "Letters you've guessed: "
       puts hangman.used_letters.join(" ")
     end

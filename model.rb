@@ -27,11 +27,11 @@ class HangmanModel
 
   def get_turn_input_error_codes(input)
     [].tap do |error_codes|
-      if not one_character_entered?(input)
+      unless one_character_entered?(input)
         error_codes << HangmanInputErrors::MULTIPLE_CHARACTERS
       end
 
-      if not character_is_alpha?(input)
+      unless character_is_alpha?(input)
         error_codes << HangmanInputErrors::NOT_ALPHA
       end
 

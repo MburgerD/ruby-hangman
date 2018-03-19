@@ -1,9 +1,7 @@
 require_relative 'view'
 
-
 class HangmanModel
-
-  def initialize(word='Timetable', remaining_lives=5)
+  def initialize(word = 'Timetable', remaining_lives = 5)
     @word = word
     @used_letters = []
     @remaining_lives = remaining_lives
@@ -25,7 +23,7 @@ class HangmanModel
     end
   end
 
-  def get_turn_input_error_codes(input)
+  def turn_input_error_codes(input)
     [].tap do |error_codes|
       unless one_character_entered?(input)
         error_codes << HangmanInputErrors::MULTIPLE_CHARACTERS
@@ -35,16 +33,14 @@ class HangmanModel
         error_codes << HangmanInputErrors::NOT_ALPHA
       end
 
-      if error_codes.empty?
-        if letter_used?(input)
-          error_codes << HangmanInputErrors::USED_LETTER
-        end
+      if error_codes.empty? && letter_used?(input)
+        error_codes << HangmanInputErrors::USED_LETTER
       end
     end
   end
 
   def game_over?
-    game_won? or game_lost?
+    game_won? || game_lost?
   end
 
   def game_won?
@@ -82,11 +78,10 @@ class HangmanModel
   end
 
   def no_lives_remaining?
-    @remaining_lives == 0
+    @remaining_lives.zero?
   end
 
   def all_letters_guessed?
     word.downcase.split('').uniq.length == correct_letters.uniq.length
   end
-  
 end

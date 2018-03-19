@@ -1,14 +1,12 @@
-
 class HangmanResults
   CORRECT_GUESS = 1
   INCORRECT_GUESS = 2
 
   RESULT_MESSAGES = {
-    CORRECT_GUESS => "Correct!",
-    INCORRECT_GUESS => "Nope! You lose a life!"
-  }
+    CORRECT_GUESS => 'Correct!',
+    INCORRECT_GUESS => 'Nope! You lose a life!'
+  }.freeze
 end
-
 
 class HangmanInputErrors
   MULTIPLE_CHARACTERS = 1
@@ -16,15 +14,13 @@ class HangmanInputErrors
   USED_LETTER = 3
 
   ERROR_MESSAGES = {
-    MULTIPLE_CHARACTERS => "You must only enter one character",
-    NOT_ALPHA => "You must enter a letter",
+    MULTIPLE_CHARACTERS => 'You must only enter one character',
+    NOT_ALPHA => 'You must enter a letter',
     USED_LETTER => "You've already guessed that letter"
-  }
+  }.freeze
 end
 
-
 class HangmanView
-
   def initialize(hangman_game)
     @hangman = hangman_game
   end
@@ -33,11 +29,11 @@ class HangmanView
 
   def print_start_game
     print `clear`
-    puts "------------------hangman------------------"
+    puts '------------------hangman------------------'
   end
 
-  def get_input
-    print "Enter your guess >> "
+  def user_input
+    print 'Enter your guess >> '
     gets.chomp
   end
 
@@ -49,7 +45,7 @@ class HangmanView
   end
 
   def game_won
-    puts "Well done, you won!"
+    puts 'Well done, you won!'
   end
 
   def game_lost
@@ -59,7 +55,7 @@ class HangmanView
 
   def display_error(error_code)
     puts HangmanInputErrors::ERROR_MESSAGES[error_code]
-  end  
+  end
 
   def display_result(result_code)
     puts HangmanResults::RESULT_MESSAGES[result_code]
@@ -74,7 +70,7 @@ class HangmanView
   def print_used_letters
     unless hangman.used_letters.empty?
       print "Letters you've guessed: "
-      puts hangman.used_letters.join(" ")
+      puts hangman.used_letters.join(' ')
     end
   end
 
@@ -83,10 +79,9 @@ class HangmanView
       if hangman.correct_letters.include? i.downcase
         print i
       else
-        print "*"
+        print '*'
       end
     end
     print "\n"
   end
-
 end

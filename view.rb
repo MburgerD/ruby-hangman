@@ -68,10 +68,9 @@ class HangmanView
   end
 
   def print_used_letters
-    unless hangman.used_letters.empty?
-      print "Letters you've guessed: "
-      puts hangman.used_letters.join(' ')
-    end
+    return if hangman.used_letters.empty?
+    print "Letters you've guessed: "
+    puts hangman.used_letters.join(' ')
   end
 
   def print_word_progress
